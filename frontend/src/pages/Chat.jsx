@@ -108,6 +108,7 @@ const Chat = ({ loggedUsername, loggedUserID }) => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-100">
+      {/* Contacts Section */}
       <div className="bg-white w-full md:w-1/3 p-4 overflow-y-auto border-b md:border-r border-gray-300">
         <h2 className="text-xl font-semibold mb-4">Contacts</h2>
         {allContacts.map((contact) => (
@@ -122,8 +123,21 @@ const Chat = ({ loggedUsername, loggedUserID }) => {
           </div>
         ))}
       </div>
-      <div className="flex flex-col w-full md:w-2/3 p-4">
-        <div className="flex-grow overflow-auto mb-4">
+
+      {/* Chat Section */}
+      <div className="flex flex-col w-full md:w-2/3">
+        {/* Top Bar */}
+        {selectedUser && (
+          <div className="bg-blue-500 text-white p-4 flex items-center gap-4">
+            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-xl font-bold">
+              {selectedUser.username[0].toUpperCase()}
+            </div>
+            <h3 className="text-lg font-medium">{selectedUser.username}</h3>
+          </div>
+        )}
+
+        {/* Messages */}
+        <div className="flex-grow overflow-auto p-4">
           {allMessages.map((msg, index) => (
             <div
               key={index}
@@ -142,18 +156,22 @@ const Chat = ({ loggedUsername, loggedUserID }) => {
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <form className="flex" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="flex-grow p-2 border rounded-md"
-            placeholder="Type a message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button type="submit" className="p-2 bg-blue-500 text-white rounded-md">
-            <IoMdSend size={24} />
-          </button>
-        </form>
+
+        {/* Input */}
+        {selectedUser && (
+          <form className="flex p-4 border-t" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              className="flex-grow p-2 border rounded-md"
+              placeholder="Type a message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button type="submit" className="p-2 bg-blue-500 text-white rounded-md">
+              <IoMdSend size={24} />
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
